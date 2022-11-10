@@ -20,10 +20,10 @@ class Casting:
         """
         # use the player position with self.player.getPos()
         # use the player angle with self.player.getAngle()
-        print(self.player.getPos())
         vector = vector - self.player.getPos()
         vector = vector.rotateX(self.player.getAngle()[0])
         vector = vector.rotateY(self.player.getAngle()[1])
+        res = Vector(0, 0, 0)
 
         # calculate the position on the screen
         x = self.center.x + vector.x * self.scale / (vector.z + self.fov)
@@ -31,10 +31,16 @@ class Casting:
         # if x, y is not in the screen, return the closest point on the screen
         if x < 0:
             x = 0
+            res.isVisible = False
         elif x > self.width:
             x = self.width
+            res.isVisible = False
         if y < 0:
             y = 0
+            res.isVisible = False
         elif y > self.height:
             y = self.height
-        return Vector(x, y, 0)
+            res.isVisible = False
+        res.x = x
+        res.y = y
+        return res

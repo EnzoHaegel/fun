@@ -11,8 +11,8 @@ class Player:
         self.angleY = 0 # rotation around the y axis
         self.fov = fov
         self.screen = screen
-        self.speed = 0.8
-        self.rotationSpeed = 0.05
+        self.speed = 8
+        self.rotationSpeed = 0.01
 
     def move(self, direction):
         if direction == "forward":
@@ -59,7 +59,7 @@ class Player:
     
     def getAngle(self):
         return (self.angleX, self.angleY)
-
+    
     def __str__(self):
         return "Player(x:%s, y:%s, z:%s, angleX%s, angleY%s)" % (self.x, self.y, self.z, self.angleX, self.angleY)
     

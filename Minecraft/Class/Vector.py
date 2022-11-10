@@ -5,42 +5,6 @@ class Vector:
         self.x = x
         self.y = y
         self.z = z
-        self.isVisible = True
-    
-    def getTuple(self):
-        """Return a tuple representation of the vector."""
-        return (self.x, self.y)
-    
-    def rotateX(self, angle):
-        """Rotate the vector around the X axis by the given angle (in degree)."""
-        # use the matrix of rotation
-        # | 1 0 0 |
-        # | 0 cos -sin |
-        # | 0 sin cos |
-        c = math.cos(angle)
-        s = math.sin(angle)
-        y = self.y * c - self.z * s
-        z = self.y * s + self.z * c
-        return Vector(self.x, y, z)
-    
-    def rotateY(self, angle):
-        """Rotate the vector around the Y axis by the given angle (in radians)."""
-        c = math.cos(angle)
-        s = math.sin(angle)
-        z = self.z * c - self.x * s
-        x = self.z * s + self.x * c
-        return Vector(x, self.y, z)
-
-    def rotateZ(self, angle):
-        """Rotate the vector around the Z axis by the given angle (in radians)."""
-        c = math.cos(angle)
-        s = math.sin(angle)
-        x = self.x * c - self.y * s
-        y = self.x * s + self.y * c
-        return Vector(x, y, self.z)
-    
-    def setVisibility(self, isVisible):
-        self.isVisible = isVisible
 
     def __add__(self, other):
         return Vector(self.x + other.x, self.y + other.y, self.z + other.z)

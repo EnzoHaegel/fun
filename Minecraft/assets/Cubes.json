@@ -1,0 +1,8 @@
+{
+    "cubes": [
+        {"id": 0, "name": "Stone"
+        },
+        {"id": 1, "name": "Dirt"
+        }
+    ]
+}
