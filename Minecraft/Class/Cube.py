@@ -1,21 +1,32 @@
 # A class for the cube
 import json
+from Class.Vector import Vector
 
 class Cube:
-    def __init__(self, x, y, z, id=0, size=1):
+    def __init__(self, x, y, z, cubeId=0, size=1):
         self.x = x
         self.y = y
         self.z = z
         self.size = size
-        self.id = 0
+        self.id = cubeId
         self.name = self.fillName()
+        self.points = []
+        self.getPoints()
     
+    def getPoints(self):
+        """
+        return the 6 points of the cube
+        """
+        if self.points == []:
+            self.points = [Vector(self.x, self.y, self.z), Vector(self.x + self.size, self.y, self.z), Vector(self.x + self.size, self.y + self.size, self.z), Vector(self.x, self.y + self.size, self.z), Vector(self.x, self.y, self.z + self.size), Vector(self.x + self.size, self.y, self.z + self.size), Vector(self.x + self.size, self.y + self.size, self.z + self.size), Vector(self.x, self.y + self.size, self.z + self.size)]
+        return self.points
+
     def fillName(self):
         """
         search on the json Cubes.json the name of the cube with the id
         """
         try:
-            with open(file_name, encoding="utf8") as json_file:
+            with open("assets/Cubes.json", encoding="utf8") as json_file:
                 data = json.load(json_file)
                 for cube in data['cubes']:
                     if int(cube['id']) == self.id:
@@ -33,6 +44,9 @@ class Cube:
                 return json.load(json_file)
         except:
             return ''
+    
+    def getPosition(self):
+        return Vector(self.x, self.y, self.z)
 
     def __str__(self):
         return "Cube: x=%d, y=%d, z=%d, size=%d" % (self.x, self.y, self.z, self.size)

@@ -15,7 +15,6 @@ class Player:
         self.angleY = 0
         self.angleX = 0
         self.angleSpeed = 0.5
-        self.cube = Cube(self.x, self.y, self.z, 1)
     
     def run(self, mousePos, keys, debug=True):
         self.angleX = self.angleX + (mousePos[0] - self.screen.width/2) * self.angleSpeed
@@ -78,7 +77,7 @@ class Player:
         return Vector(self.x, self.y, self.z)
     
     def getAngle(self):
-        return Vector(self.angleX, self.angleY, self.angleZ)
+        return (self.angleX, self.angleY)
 
     def __str__(self):
         return "===\nPlayer: " + self.name + "\n\tPos: " + str(self.x) + ", " + str(self.y) + ", " + str(self.z) + "\n\tAngle: " + str(self.angleX) + ", " + str(self.angleY) + "\n==="
