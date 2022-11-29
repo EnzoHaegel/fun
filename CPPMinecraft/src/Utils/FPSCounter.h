@@ -7,7 +7,7 @@ class FPSCounter
     public:
         FPSCounter();
         void update();
-        void draw(sf::RenderTarget& renderer);
+        void draw(sf::RenderTarget& renderer, bool vsync = false);
 
     private:
         sf::Text m_text;

@@ -24,8 +24,10 @@ void FPSCounter::update()
 }
 
 //Draws the FPS display to the window
-void FPSCounter::draw(sf::RenderTarget &renderer)
+void FPSCounter::draw(sf::RenderTarget &renderer, bool vsync)
 {
-    m_text.setString("FPS " + std::to_string((int)m_fps) + "\tVSync : ");
+    char const *strVsync = vsync ? "ON" : "OFF";
+
+    m_text.setString("FPS " + std::to_string((int)m_fps) + "\tVSync : " + strVsync);
     renderer.draw(m_text);
 }

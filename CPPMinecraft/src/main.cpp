@@ -12,5 +12,6 @@ int main(int ac, char **av)
 {
     SoftwareRender render;
     
+    render.run();
     return 0;
 }
