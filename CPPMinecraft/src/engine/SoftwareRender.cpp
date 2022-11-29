@@ -7,7 +7,10 @@
 
 #include "SoftwareRender.hpp"
 
-SoftwareRender::SoftwareRender() : m_window({LENGTH, HEIGHT}, "Minecraft")
+SoftwareRender::SoftwareRender() :
+    m_window({LENGTH, HEIGHT}, "Minecraft"),
+    _camera(Camera(this->getSize(), std::vector<float>{5, 5, -5})),
+    _projection(Projection(_camera._near, _camera._far, _camera._hfov, _camera._vfov, this->getSize()))
 {
     m_window.setFramerateLimit(FPS);
     m_window.setMouseCursorVisible(false);
@@ -125,8 +128,15 @@ void SoftwareRender::draw()
     m_window.draw(line, 20, sf::Lines);
 }
 
-void SoftwareRender::getSize()
+sf::Vector2i SoftwareRender::getSize()
 {
     _length = m_window.getSize().x;
     _width = m_window.getSize().y;
+
+    return sf::Vector2i(_length, _width);
+}
+
+const sf::RenderWindow &SoftwareRender::getWindow() const
+{
+    return m_window;
 }

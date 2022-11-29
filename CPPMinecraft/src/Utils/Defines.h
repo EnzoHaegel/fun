@@ -13,4 +13,6 @@
 #define LENGTH (1920)
 #define FPS (60)
 
+#define PI 3.14159265358979323846  /* pi */
+
 #endif /* !DEFINES_H_ */

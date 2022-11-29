@@ -11,8 +11,8 @@
 #include "Projection.hpp"
 #include "Camera.hpp"
 #include "../Utils/Defines.h"
-#include <SFML/Graphics.hpp>
 #include "../Utils/FPSCounter.h"
+#include <SFML/Graphics.hpp>
 #include <iostream>
 
 class SoftwareRender {
@@ -24,7 +24,12 @@ class SoftwareRender {
         void create_objects();
         void handleEvent();
         void debug();
-        void getSize();
+        sf::Vector2i getSize();
+
+        const sf::RenderWindow& getWindow() const;
+        
+        Camera _camera;
+        Projection _projection;
 
     protected:
     private:
@@ -33,8 +38,6 @@ class SoftwareRender {
         sf::Texture _texture;
         sf::Sprite _sprite;
         sf::Uint8 *_pixels;
-        Camera _camera;
-        Projection _projection;
         bool _vsync;
         bool _debug;
         bool _fullscreen;

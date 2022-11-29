@@ -15,6 +15,7 @@ SRC		=	src/main.cpp					\
 			$(ENGINE)/Projection.cpp		\
 			$(UTIL)/Vec3.cpp				\
 			$(UTIL)/FPSCounter.cpp			\
+			$(UTIL)/matrix_functions.cpp	\
 			$(RSR)/ResourceHolder.cpp		\
 
 NAME	=	minecraft
