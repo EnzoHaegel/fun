@@ -19,7 +19,7 @@ std::vector<std::vector<float>> mfTranslate(Vec3 const &pos)
     return matrix;
 }
 
-std::vector<std::vector<float>> mfTtranslate(sf::Vector3i const &pos)
+std::vector<std::vector<float>> mfTranslate(sf::Vector3i pos)
 {
     std::vector<std::vector<float>>matrix = {
         {1, 0, 0, (float)pos.x},

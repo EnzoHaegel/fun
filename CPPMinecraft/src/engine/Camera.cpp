@@ -16,12 +16,12 @@ Camera::Camera(sf::Vector2i window_size, std::vector<float> position)
     this->_right = std::vector<float>{1, 0, 0, 1};
     this->_hfov = PI / 3;
     this->_window_size = window_size;
-    this->_vfov = _hfov * (_window_size.y / _window_size.x);
+    this->_vfov = _hfov * (float(_window_size.y) / float(_window_size.x));
     this->_near = 0.1;
     this->_far = 100;
     this->_movingSpeed = 0.3;
     this->_rotationSpeed = 0.015;
-    this->_mouseSensitivity = 0.1;
+    this->_mouseSensitivity = 0.001;
     this->_yaw = 0;
     this->_pitch = 0;
     this->_roll = 0;
@@ -58,6 +58,14 @@ void Camera::control(sf::Event::KeyEvent key)
     }
 }
 
+void Camera::mouseControl(sf::Vector2i pixelPos)
+{
+    this->_yaw -= (pixelPos.x - _window_size.x / 2) * _mouseSensitivity;
+    this->_pitch -= (pixelPos.y - _window_size.y / 2) * _mouseSensitivity;
+    this->cameraUpdateAxii();
+    sf::Mouse::setPosition(sf::Vector2i(_window_size.x / 2, _window_size.y / 2));
+}
+
 void Camera::cameraYaw(float angle)
 {
     this->_yaw += angle;
@@ -77,7 +85,7 @@ void Camera::axiiIdentity()
 
 void Camera::cameraUpdateAxii()
 {
-    std::vector<std::vector<float>> rotate = matrix_mult(rotateX(this->_pitch), rotateY(this->_yaw));
+    std::vector<std::vector<float>> rotate = matrix_mult(mfRotateX(this->_pitch), mfRotateY(this->_yaw));
     this->axiiIdentity();
     this->_forward = matrix_mult(this->_forward, rotate);
     this->_right = matrix_mult(this->_right, rotate);

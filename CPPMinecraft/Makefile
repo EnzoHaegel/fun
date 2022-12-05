@@ -13,6 +13,7 @@ SRC		=	src/main.cpp					\
 			$(ENGINE)/SoftwareRender.cpp	\
 			$(ENGINE)/Camera.cpp			\
 			$(ENGINE)/Projection.cpp		\
+			$(ENGINE)/Cube.cpp		\
 			$(UTIL)/Vec3.cpp				\
 			$(UTIL)/FPSCounter.cpp			\
 			$(UTIL)/matrix_functions.cpp	\

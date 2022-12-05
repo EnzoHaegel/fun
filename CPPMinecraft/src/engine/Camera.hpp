@@ -19,6 +19,7 @@ class Camera {
 
         void setWindowSize(sf::Vector2i);
         void control(sf::Event::KeyEvent key);
+        void mouseControl(sf::Vector2i pixelPos);
 
         void cameraYaw(float angle);
         void cameraPitch(float angle);

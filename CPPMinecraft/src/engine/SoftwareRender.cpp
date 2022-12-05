@@ -9,7 +9,7 @@
 
 SoftwareRender::SoftwareRender() :
     m_window({LENGTH, HEIGHT}, "Minecraft"),
-    _camera(Camera(this->getSize(), std::vector<float>{5, 5, -5})),
+    _camera(Camera(sf::Vector2i(LENGTH, HEIGHT), std::vector<float>{5, 5, -5})),
     _projection(Projection(_camera._near, _camera._far, _camera._hfov, _camera._vfov, this->getSize()))
 {
     m_window.setFramerateLimit(FPS);
@@ -17,16 +17,40 @@ SoftwareRender::SoftwareRender() :
     _vsync = false;
     _debug = false;
     _fullscreen = true;
-    // get width and length of the window
-    _length = m_window.getSize().x;
-    _width = m_window.getSize().y;
     m_window.setPosition({m_window.getPosition().x, 0});
     // window full screen
     m_window.create(sf::VideoMode::getDesktopMode(), "Minecraft", sf::Style::Fullscreen);
+    // get width and length of the window
+    _length = m_window.getSize().x;
+    _width = m_window.getSize().y;
+
+    // put mouse in the middle of the screen
+    sf::Mouse::setPosition(sf::Vector2i(_length / 2, _width / 2), m_window);
+
+    // create Cube objects
+    create_objects();
+
+    // text for debug
+    m_text.move(0, 20);
+    m_text.setOutlineColor(sf::Color::Black);
+    m_text.setFillColor({255, 255, 255});
+    m_text.setOutlineThickness(2);
+    m_text.setFont(ResourceHolder::get().fonts.get("arial"));
+    m_text.setCharacterSize(15);
 }
 
 SoftwareRender::~SoftwareRender()
 {
+}
+
+void SoftwareRender::create_objects()
+{
+    // _cubes.push_back(Cube(this->m_window, sf::Vector3i{4, 4, 4}, _camera.cameraMatrix(), _projection._projectionMatrix, _projection._viewMatrix));
+    for (int i = 0; i < 20; i++) {
+        for (int j = 0; j < 20; j++) {
+            _cubes.push_back(Cube(this->m_window, sf::Vector3i{i, j, 4}, _camera.cameraMatrix(), _projection._projectionMatrix, _projection._viewMatrix));
+        }
+    }
 }
 
 void SoftwareRender::run()
@@ -70,8 +94,10 @@ void SoftwareRender::run()
         // debug
         debug();
 
-        // draw a white square
-        draw();
+        // draw cubes
+        for (auto &cube : _cubes) {
+            cube.draw(_camera.cameraMatrix());
+        }
 
         m_window.display();
     }
@@ -105,14 +131,19 @@ void SoftwareRender::handleEvent()
                     m_window.create(sf::VideoMode(_length, _width), "Minecraft");
                 }
             }
+            _camera.control(event.key);
         }
     }
+    _camera.mouseControl(sf::Mouse::getPosition(m_window));
 }
 
 void SoftwareRender::debug()
 {
     if (_debug) {
         counter.draw(m_window, _vsync);
+        // put _camera position
+        m_text.setString("Camera position: " + std::to_string(_camera._position[0]) + " " + std::to_string(_camera._position[1]) + " " + std::to_string(_camera._position[2]));
+        m_window.draw(m_text);
     }
 }
 
@@ -130,10 +161,10 @@ void SoftwareRender::draw()
 
 sf::Vector2i SoftwareRender::getSize()
 {
-    _length = m_window.getSize().x;
-    _width = m_window.getSize().y;
+    this->_length = m_window.getSize().x;
+    this->_width = m_window.getSize().y;
 
-    return sf::Vector2i(_length, _width);
+    return sf::Vector2i(LENGTH, HEIGHT);
 }
 
 const sf::RenderWindow &SoftwareRender::getWindow() const

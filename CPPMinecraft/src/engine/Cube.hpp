@@ -15,7 +15,7 @@
 
 class Cube {
     public:
-        Cube(sf::RenderWindow m_window, sf::Vector3i position, std::vector<std::vector<float>> cameraMatrix, std::vector<std::vector<float>> projectionMatrix, std::vector<std::vector<float>> viewMatrix);
+        Cube(sf::RenderWindow &m_window, sf::Vector3i position, std::vector<std::vector<float>> cameraMatrix, std::vector<std::vector<float>> projectionMatrix, std::vector<std::vector<float>> viewMatrix);
         ~Cube();
 
         void setPos(sf::Vector3i pos);
@@ -24,12 +24,16 @@ class Cube {
         void rotateY(float a);
         void rotateZ(float a);
         void scale(float s);
-        void screenProjection();
+        std::vector<std::vector<float>> screenProjection();
+        void draw(std::vector<std::vector<float>> camera_matrix);
+
+        void debugVertices(std::vector<std::vector<float>> vertices);
+        bool any_func(std::vector<float> arr, float a, float b);
 
     protected:
     private:
 
-    sf::RenderWindow m_window;
+    sf::RenderWindow &m_window;
     sf::Vector3i _pos;
     std::vector<std::vector<float>> _vertices;
     std::vector<std::vector<float>> _faces;

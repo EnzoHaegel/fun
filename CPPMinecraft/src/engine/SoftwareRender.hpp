@@ -10,8 +10,10 @@
 
 #include "Projection.hpp"
 #include "Camera.hpp"
+#include "Cube.hpp"
 #include "../Utils/Defines.h"
 #include "../Utils/FPSCounter.h"
+#include "../ResourceManager/ResourceHolder.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
@@ -30,11 +32,11 @@ class SoftwareRender {
         
         Camera _camera;
         Projection _projection;
+        sf::RenderWindow m_window;
 
     protected:
     private:
         FPSCounter counter;
-        sf::RenderWindow m_window;
         sf::Texture _texture;
         sf::Sprite _sprite;
         sf::Uint8 *_pixels;
@@ -43,6 +45,11 @@ class SoftwareRender {
         bool _fullscreen;
         int _width;
         int _length;
+
+        std::vector<Cube> _cubes;
+
+        sf::Text m_text;
+        sf::Font m_font;
 };
 
 #endif /* !SOFTWARERENDER_HPP_ */

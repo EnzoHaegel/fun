@@ -6,6 +6,7 @@
 */
 
 #include "Projection.hpp"
+#include <iostream>
 
 Projection::Projection(float near, float far, float hfov, float vfov, sf::Vector2i size)
 {

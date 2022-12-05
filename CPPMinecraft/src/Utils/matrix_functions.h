@@ -14,7 +14,7 @@
 #include <SFML/Graphics.hpp>
 
 std::vector<std::vector<float>> mfTranslate(Vec3 const &pos);
-std::vector<std::vector<float>> mfTranslate(sf::Vector3i const &pos);
+std::vector<std::vector<float>> mfTranslate(sf::Vector3i pos);
 std::vector<std::vector<float>> mfRotateX(float angle);
 std::vector<std::vector<float>> mfRotateY(float angle);
 std::vector<std::vector<float>> mfRotateZ(float angle);
