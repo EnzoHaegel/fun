@@ -8,16 +8,19 @@
 ENGINE	=	src/engine
 UTIL	= 	src/Utils
 RSR		=	src/ResourceManager
+GAME	=	src/Game
 
 SRC		=	src/main.cpp					\
 			$(ENGINE)/SoftwareRender.cpp	\
 			$(ENGINE)/Camera.cpp			\
 			$(ENGINE)/Projection.cpp		\
-			$(ENGINE)/Cube.cpp		\
+			$(ENGINE)/Cube.cpp				\
 			$(UTIL)/Vec3.cpp				\
 			$(UTIL)/FPSCounter.cpp			\
 			$(UTIL)/matrix_functions.cpp	\
 			$(RSR)/ResourceHolder.cpp		\
+			$(GAME)/World.cpp				\
+			$(GAME)/Chunk.cpp				\
 
 NAME	=	minecraft
 

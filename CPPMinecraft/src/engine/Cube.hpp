@@ -25,21 +25,21 @@ class Cube {
         void rotateZ(float a);
         void scale(float s);
         std::vector<std::vector<float>> screenProjection();
-        void draw(std::vector<std::vector<float>> camera_matrix);
+        void draw(std::vector<std::vector<float>> camera_matrix, std::vector<int> face_to_draw = std::vector<int>{0, 1, 2, 3, 4, 5});
 
         void debugVertices(std::vector<std::vector<float>> vertices);
         bool any_func(std::vector<float> arr, float a, float b);
 
+        sf::Vector3i _pos;
+        bool _isSolid;
     protected:
     private:
 
     sf::RenderWindow &m_window;
-    sf::Vector3i _pos;
     std::vector<std::vector<float>> _vertices;
     std::vector<std::vector<float>> _faces;
     std::vector<std::vector<float>> _cameraMatrix;
     bool _isVisible;
-    bool _isSolid;
     bool _drawVertices;
     std::string _label;
     std::vector<std::vector<float>> _projectionMatrix;

@@ -10,7 +10,8 @@
 SoftwareRender::SoftwareRender() :
     m_window({LENGTH, HEIGHT}, "Minecraft"),
     _camera(Camera(sf::Vector2i(LENGTH, HEIGHT), std::vector<float>{5, 5, -5})),
-    _projection(Projection(_camera._near, _camera._far, _camera._hfov, _camera._vfov, this->getSize()))
+    _projection(Projection(_camera._near, _camera._far, _camera._hfov, _camera._vfov, this->getSize())),
+    _world(World(this->m_window, _camera.cameraMatrix(), _projection._projectionMatrix, _projection._viewMatrix))
 {
     m_window.setFramerateLimit(FPS);
     m_window.setMouseCursorVisible(false);
@@ -46,8 +47,8 @@ SoftwareRender::~SoftwareRender()
 void SoftwareRender::create_objects()
 {
     // _cubes.push_back(Cube(this->m_window, sf::Vector3i{4, 4, 4}, _camera.cameraMatrix(), _projection._projectionMatrix, _projection._viewMatrix));
-    for (int i = 0; i < 20; i++) {
-        for (int j = 0; j < 20; j++) {
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
             _cubes.push_back(Cube(this->m_window, sf::Vector3i{i, j, 4}, _camera.cameraMatrix(), _projection._projectionMatrix, _projection._viewMatrix));
         }
     }
@@ -95,9 +96,12 @@ void SoftwareRender::run()
         debug();
 
         // draw cubes
-        for (auto &cube : _cubes) {
-            cube.draw(_camera.cameraMatrix());
-        }
+        // for (auto &cube : _cubes) {
+        //     cube.draw(_camera.cameraMatrix());
+        // }
+
+        // run World
+        _world.run(_camera.cameraMatrix());
 
         m_window.display();
     }

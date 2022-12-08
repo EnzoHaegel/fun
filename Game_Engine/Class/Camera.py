@@ -46,8 +46,7 @@ class Camera:
         if key[pg.K_UP]:
             self.camera_pitch(self.rotation_speed)
         self.camera_mouse()
-        
-    
+
     def camera_mouse(self):
         # get mouse position
         print(pyautogui.position())

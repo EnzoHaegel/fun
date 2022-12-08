@@ -22,12 +22,12 @@ Cube::Cube(sf::RenderWindow &m_window, sf::Vector3i position, std::vector<std::v
         std::vector<float>{(float)this->_pos.x + 1, (float)this->_pos.z + 0, (float)this->_pos.y + 1, 1}  // 7
     };
     this->_faces = std::vector<std::vector<float>>{
-        std::vector<float>{0, 1, 3, 2}, // 0
-        std::vector<float>{4, 5, 7, 6}, // 1
-        std::vector<float>{0, 4, 5, 1}, // 2
-        std::vector<float>{2, 3, 7, 6}, // 3
-        std::vector<float>{1, 2, 6, 5}, // 4
-        std::vector<float>{0, 3, 7, 4}  // 5
+        std::vector<float>{0, 1, 2, 3}, // 0 - 0 0 0 -> 1 1 0
+        std::vector<float>{4, 5, 6, 7}, // 1 - 0 0 1 -> 1 1 1
+        std::vector<float>{0, 4, 5, 1}, // 2 - 0 0 0 -> 0 0 1
+        std::vector<float>{2, 3, 7, 6}, // 3 - 1 1 0 -> 1 1 1
+        std::vector<float>{1, 2, 6, 5}, // 4 - 0 1 0 -> 1 1 1
+        std::vector<float>{0, 3, 7, 4}  // 5 - 0 0 0 -> 1 0 0
     };
     this->_cameraMatrix = cameraMatrix;
     this->_isVisible = true;
@@ -109,7 +109,7 @@ std::vector<std::vector<float>> Cube::screenProjection()
     return(tmp_vertices);
 }
 
-void Cube::draw(std::vector<std::vector<float>> camera_matrix)
+void Cube::draw(std::vector<std::vector<float>> camera_matrix, std::vector<int> face_to_draw)
 {
     this->_cameraMatrix = camera_matrix;
     std::vector<std::vector<float>> twoDvertices = this->screenProjection();
@@ -126,6 +126,8 @@ void Cube::draw(std::vector<std::vector<float>> camera_matrix)
     }
     // draw the 4 lines of each faces [0, 1, 2, 3, 0]
     for (int i = 0; i < this->_faces.size(); i++) {
+        if (std::find(face_to_draw.begin(), face_to_draw.end(), i) == face_to_draw.end())
+            continue;
         for (int j = 0; j < this->_faces[i].size() - 1; j++) {
             if (any_func(twoDvertices[this->_faces[i][j]], 1920/2, 1080/2) || any_func(twoDvertices[this->_faces[i][j + 1]], 1920/2, 1080/2))
                 continue;
@@ -140,8 +142,8 @@ void Cube::draw(std::vector<std::vector<float>> camera_matrix)
 
 bool Cube::any_func(std::vector<float> arr, float a, float b)
 {
-    for (int i = 0; i < arr.size(); i++) {
-        if (arr[i] == a || arr[i] == b)
+    for (size_t i = 0; i < arr.size(); i++) {
+        if (static_cast<int>(arr[i]) == a || static_cast<int>(arr[i]) == b)
             return(true);
     }
     return(false);

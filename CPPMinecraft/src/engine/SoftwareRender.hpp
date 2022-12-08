@@ -14,6 +14,7 @@
 #include "../Utils/Defines.h"
 #include "../Utils/FPSCounter.h"
 #include "../ResourceManager/ResourceHolder.h"
+#include "../Game/World.hpp"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
@@ -50,6 +51,8 @@ class SoftwareRender {
 
         sf::Text m_text;
         sf::Font m_font;
+
+        World _world;
 };
 
 #endif /* !SOFTWARERENDER_HPP_ */
