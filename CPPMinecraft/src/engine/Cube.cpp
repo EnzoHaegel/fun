@@ -7,8 +7,8 @@
 
 #include "Cube.hpp"
 
-Cube::Cube(sf::RenderWindow &m_window, sf::Vector3i position, std::vector<std::vector<float>> cameraMatrix, std::vector<std::vector<float>> projectionMatrix, std::vector<std::vector<float>> viewMatrix)
-    :   m_window(m_window)
+Cube::Cube(sf::RenderWindow &m_window, sf::Vector3i position, std::vector<std::vector<float>> cameraMatrix, std::vector<std::vector<float>> projectionMatrix, std::vector<std::vector<float>> viewMatrix, sf::Texture &texture)
+    :   m_window(m_window), texture(texture)
 {
     this->_pos = position;
     this->_vertices = std::vector<std::vector<float>>{
@@ -36,6 +36,7 @@ Cube::Cube(sf::RenderWindow &m_window, sf::Vector3i position, std::vector<std::v
     this->_label = "Cube";
     this->_projectionMatrix = projectionMatrix;
     this->_viewMatrix = viewMatrix;
+    this->_texture = true;
 }
 
 Cube::~Cube()
@@ -124,19 +125,54 @@ void Cube::draw(std::vector<std::vector<float>> camera_matrix, std::vector<int> 
             }
         }
     }
+
+    bool is_visible = true;
     // draw the 4 lines of each faces [0, 1, 2, 3, 0]
     for (size_t i = 0; i < this->_faces.size(); i++) {
         if (std::find(face_to_draw.begin(), face_to_draw.end(), i) == face_to_draw.end())
             continue;
-        for (size_t j = 0; j < this->_faces[i].size() - 1; j++) {
+        for (size_t j = 0; j < this->_faces[i].size() - 1; j++)
             if (any_func(twoDvertices[this->_faces[i][j]], 1920/2, 1080/2) || any_func(twoDvertices[this->_faces[i][j + 1]], 1920/2, 1080/2))
-                continue;
-            sf::Vertex line[] = {
-                sf::Vertex(sf::Vector2f(twoDvertices[this->_faces[i][j]][0], twoDvertices[this->_faces[i][j]][1])),
-                sf::Vertex(sf::Vector2f(twoDvertices[this->_faces[i][j + 1]][0], twoDvertices[this->_faces[i][j + 1]][1]))
-            };
-            this->m_window.draw(line, 2, sf::Lines);
+                is_visible = false;
+        if (!is_visible)
+            continue;
+        sf::ConvexShape convex;
+        // M of coordinates (x,y) is inside the rectangle iff
+        // (0<AM⋅AB<AB⋅AB)∧(0<AM⋅AD<AD⋅AD)
+        // (scalar product of vectors)
+        // check if the middle of the screen is inside the rectangle
+        // if not, don't draw it
+        sf::Vector2f AB(twoDvertices[this->_faces[i][1]][0] - twoDvertices[this->_faces[i][0]][0], twoDvertices[this->_faces[i][1]][1] - twoDvertices[this->_faces[i][0]][1]);
+        sf::Vector2f AD(twoDvertices[this->_faces[i][3]][0] - twoDvertices[this->_faces[i][0]][0], twoDvertices[this->_faces[i][3]][1] - twoDvertices[this->_faces[i][0]][1]);
+        sf::Vector2f AM(1920/2 - twoDvertices[this->_faces[i][0]][0], 1080/2 - twoDvertices[this->_faces[i][0]][1]);
+        float ABAB = AB.x * AB.x + AB.y * AB.y;
+        float ADAD = AD.x * AD.x + AD.y * AD.y;
+        float ABAM = AB.x * AM.x + AB.y * AM.y;
+        float ADAM = AD.x * AM.x + AD.y * AM.y;
+
+        convex.setPointCount(4);
+        convex.setPoint(0, sf::Vector2f(twoDvertices[this->_faces[i][0]][0], twoDvertices[this->_faces[i][0]][1]));
+        convex.setPoint(1, sf::Vector2f(twoDvertices[this->_faces[i][1]][0], twoDvertices[this->_faces[i][1]][1]));
+        convex.setPoint(2, sf::Vector2f(twoDvertices[this->_faces[i][2]][0], twoDvertices[this->_faces[i][2]][1]));
+        convex.setPoint(3, sf::Vector2f(twoDvertices[this->_faces[i][3]][0], twoDvertices[this->_faces[i][3]][1]));
+        if (this->_texture) {
+            // set the texture
+            convex.setTexture(&this->texture);
+        } else {
+            convex.setFillColor(sf::Color::Transparent);
+            convex.setOutlineColor(sf::Color::White);
+            convex.setOutlineThickness(1);
         }
+        if (!(ABAM < 0 || ABAM > ABAB || ADAM < 0 || ADAM > ADAD)) {
+            if (_texture) {
+                convex.setFillColor(sf::Color(0, 0, 0, 25));
+            } else {
+                convex.setOutlineColor(sf::Color::Blue);
+                convex.setOutlineThickness(4);
+            }
+        }
+        this->m_window.draw(convex);
+        is_visible = true;
     }
 }
 

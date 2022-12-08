@@ -12,18 +12,22 @@ World::World(sf::RenderWindow &m_window, std::vector<std::vector<float>> cameraM
     : _m_window(m_window), _cameraMatrix(cameraMatrix), _projectionMatrix(projectionMatrix), _viewMatrix(viewMatrix)
 {
     // std::vector<std::vector<std::vector<Cube>>> _cubes;
+    if (!_texture.loadFromFile("assets/texture/stone.png"))
+        std::cout << "Error loading texture" << std::endl;
+    _texture.setSmooth(true);
+    _texture.setRepeated(true);
     for (int x = 0; x < 10; x++) {
         std::vector<std::vector<Cube>> _cubesX;
         for (int y = 0; y < 10; y++) {
             std::vector<Cube> _cubesY;
             for (int z = 0; z < 10; z++) {
                 // random 70% chance to add a Cube
-                Cube cube(m_window, sf::Vector3i(x, y, z), cameraMatrix, projectionMatrix, viewMatrix);
+                Cube cube(m_window, sf::Vector3i(x, y, z), cameraMatrix, projectionMatrix, viewMatrix, _texture);
                 std::random_device rd;
                 std::mt19937 gen(rd());
                 std::uniform_int_distribution<> dis(0, 100);
-                if (dis(gen) > 70)
-                    cube._isSolid = false;
+                // if (dis(gen) > 70)
+                //     cube._isSolid = false;
                 _cubesY.push_back(cube);
             }
             _cubesX.push_back(_cubesY);

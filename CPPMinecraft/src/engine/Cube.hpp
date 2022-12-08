@@ -15,7 +15,7 @@
 
 class Cube {
     public:
-        Cube(sf::RenderWindow &m_window, sf::Vector3i position, std::vector<std::vector<float>> cameraMatrix, std::vector<std::vector<float>> projectionMatrix, std::vector<std::vector<float>> viewMatrix);
+        Cube(sf::RenderWindow &m_window, sf::Vector3i position, std::vector<std::vector<float>> cameraMatrix, std::vector<std::vector<float>> projectionMatrix, std::vector<std::vector<float>> viewMatrix, sf::Texture &texture);
         ~Cube();
 
         void setPos(sf::Vector3i pos);
@@ -32,6 +32,7 @@ class Cube {
 
         sf::Vector3i _pos;
         bool _isSolid;
+        sf::Texture &texture;
     protected:
     private:
 
@@ -44,6 +45,7 @@ class Cube {
     std::string _label;
     std::vector<std::vector<float>> _projectionMatrix;
     std::vector<std::vector<float>> _viewMatrix;
+    bool _texture;
 };
 
 #endif /* !CUBE_HPP_ */

@@ -19,6 +19,8 @@ class World {
 
         void run(std::vector<std::vector<float>> cameraMatrix);
 
+        sf::Texture _texture;
+
     protected:
     private:
         std::vector<std::vector<std::vector<Cube>>> _cubes;

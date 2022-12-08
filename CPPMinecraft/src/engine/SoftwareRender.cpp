@@ -19,8 +19,11 @@ SoftwareRender::SoftwareRender() :
     _debug = false;
     _fullscreen = true;
     m_window.setPosition({m_window.getPosition().x, 0});
+    // anti aliasing
+    sf::ContextSettings settings;
+    settings.antialiasingLevel = 4;
     // window full screen
-    m_window.create(sf::VideoMode::getDesktopMode(), "Minecraft", sf::Style::Fullscreen);
+    m_window.create(sf::VideoMode::getDesktopMode(), "Minecraft", sf::Style::Fullscreen, settings);
     // get width and length of the window
     _length = m_window.getSize().x;
     _width = m_window.getSize().y;
@@ -47,11 +50,11 @@ SoftwareRender::~SoftwareRender()
 void SoftwareRender::create_objects()
 {
     // _cubes.push_back(Cube(this->m_window, sf::Vector3i{4, 4, 4}, _camera.cameraMatrix(), _projection._projectionMatrix, _projection._viewMatrix));
-    for (int i = 0; i < 5; i++) {
-        for (int j = 0; j < 5; j++) {
-            _cubes.push_back(Cube(this->m_window, sf::Vector3i{i, j, 4}, _camera.cameraMatrix(), _projection._projectionMatrix, _projection._viewMatrix));
-        }
-    }
+    // for (int i = 0; i < 5; i++) {
+    //     for (int j = 0; j < 5; j++) {
+    //         _cubes.push_back(Cube(this->m_window, sf::Vector3i{i, j, 4}, _camera.cameraMatrix(), _projection._projectionMatrix, _projection._viewMatrix));
+    //     }
+    // }
 }
 
 void SoftwareRender::run()
