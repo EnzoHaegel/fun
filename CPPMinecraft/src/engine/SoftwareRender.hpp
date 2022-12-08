@@ -29,11 +29,11 @@ class SoftwareRender {
         void debug();
         sf::Vector2i getSize();
 
+        sf::RenderWindow m_window;
         const sf::RenderWindow& getWindow() const;
         
         Camera _camera;
         Projection _projection;
-        sf::RenderWindow m_window;
 
     protected:
     private:

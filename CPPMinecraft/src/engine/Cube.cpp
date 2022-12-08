@@ -70,9 +70,9 @@ void Cube::scale(float s)
 void Cube::debugVertices(std::vector<std::vector<float>> vertices)
 {
     std::cout << "Vertices:" << std::endl;
-    for (int i = 0; i < vertices.size(); i++) {
+    for (size_t i = 0; i < vertices.size(); i++) {
         std::cout << "v" << i << ": ";
-        for (int j = 0; j < vertices[i].size(); j++) {
+        for (size_t j = 0; j < vertices[i].size(); j++) {
             std::cout << vertices[i][j] << " ";
         }
         std::cout << std::endl;
@@ -84,13 +84,13 @@ std::vector<std::vector<float>> Cube::screenProjection()
     std::vector<std::vector<float>> tmp_vertices = matrix_mult88x44(this->_vertices, this->_cameraMatrix);
     tmp_vertices = matrix_mult88x44(tmp_vertices, this->_projectionMatrix);
 
-    for (int i = 0; i < tmp_vertices.size(); i++) {
+    for (size_t i = 0; i < tmp_vertices.size(); i++) {
         tmp_vertices[i][0] /= tmp_vertices[i][3];
         tmp_vertices[i][1] /= tmp_vertices[i][3];
         tmp_vertices[i][2] /= tmp_vertices[i][3];
         tmp_vertices[i][3] /= tmp_vertices[i][3];
     }
-    for (int i = 0; i < tmp_vertices.size(); i++) {
+    for (size_t i = 0; i < tmp_vertices.size(); i++) {
         if (tmp_vertices[i][0] > 2 || tmp_vertices[i][0] < -2)
             tmp_vertices[i][0] = 0;
         if (tmp_vertices[i][1] > 2 || tmp_vertices[i][1] < -2)
@@ -99,10 +99,10 @@ std::vector<std::vector<float>> Cube::screenProjection()
             tmp_vertices[i][2] = 0;
     }   
     tmp_vertices = matrix_mult88x44(tmp_vertices, this->_viewMatrix);   
-    for (int i = 0; i < tmp_vertices.size(); i++) {
+    for (size_t i = 0; i < tmp_vertices.size(); i++) {
         tmp_vertices[i].erase(tmp_vertices[i].begin() + 2, tmp_vertices[i].end());
     }
-    for (int i = 0; i < tmp_vertices.size(); i++) {
+    for (size_t i = 0; i < tmp_vertices.size(); i++) {
         tmp_vertices[i][0] /= 2;
         tmp_vertices[i][1] /= 2;
     }
@@ -115,7 +115,7 @@ void Cube::draw(std::vector<std::vector<float>> camera_matrix, std::vector<int> 
     std::vector<std::vector<float>> twoDvertices = this->screenProjection();
 
     if (this->_drawVertices) {
-        for (int i = 0; i < twoDvertices.size(); i++) {
+        for (size_t i = 0; i < twoDvertices.size(); i++) {
             if (!any_func(twoDvertices[i], 1920/2, 1080/2)) {
                 sf::CircleShape circle(2);
                 circle.setFillColor(sf::Color::White);
@@ -125,10 +125,10 @@ void Cube::draw(std::vector<std::vector<float>> camera_matrix, std::vector<int> 
         }
     }
     // draw the 4 lines of each faces [0, 1, 2, 3, 0]
-    for (int i = 0; i < this->_faces.size(); i++) {
+    for (size_t i = 0; i < this->_faces.size(); i++) {
         if (std::find(face_to_draw.begin(), face_to_draw.end(), i) == face_to_draw.end())
             continue;
-        for (int j = 0; j < this->_faces[i].size() - 1; j++) {
+        for (size_t j = 0; j < this->_faces[i].size() - 1; j++) {
             if (any_func(twoDvertices[this->_faces[i][j]], 1920/2, 1080/2) || any_func(twoDvertices[this->_faces[i][j + 1]], 1920/2, 1080/2))
                 continue;
             sf::Vertex line[] = {
